@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <title>D3 example</title>
+</head>
+<body>
+<h1>Hello world !</h1>
+<div id="plan"></div>
+
+<script>
+
+    function convertAsArray(plan){
+        for (let i = 0; i < plan.length; i++) {
+            plan[i] = Array.from(plan[i]);
+            for (let j = 0; j < plan[i].length; j++) {
+                plan[i][j] = parseInt(plan[i][j])
+            }
+        }
+    }
+//TODO : Continue with this tuto : https://www.tutorialsteacher.com/d3js/data-binding-in-d3js
+    var plan;
+    d3.select("#plan").append("span").text("Note : this note comes from D3")
+    d3.json("http://localhost:8080/?rule=20&number=25&length=50", function(data){
+        plan = data.plan
+        convertAsArray(plan)
+        console.log(plan)
+    });
+
+
+var matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+];
+console.log(matrix)
+    d3.select("#plan").transition().duration(2000).style("background-color", "red")
+    var tr = d3.select("body").append("table").selectAll("tr").data(matrix).enter().append("tr")
+
+    var td = tr.selectAll("td")
+    .data(function (d) {    // joins inner array of each row
+        //console.log(d);
+        return d;
+    })
+    .enter()    // create placeholders for each element in an inner array
+    .append("td") // creates <td> in each placeholder
+    .text(function (d) {
+        //console.log(d);
+        return d; // add value of each inner array as a text in <td>
+    });
+</script>
+</body>
+</html>
